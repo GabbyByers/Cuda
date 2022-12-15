@@ -1,8 +1,6 @@
-﻿#include "cuda_runtime.h"
+#include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-//#include <stdio.h>
 
-// runs on gpu
 __global__ void arrayAddition(int *c, const int *a, const int *b, const int size)
 {
     int i = (blockIdx.x * blockDim.x) + threadIdx.x;
@@ -11,7 +9,6 @@ __global__ void arrayAddition(int *c, const int *a, const int *b, const int size
     }
 }
 
-// runs on cpu - affects the gpu
 void addWithCuda(int *c, int *a, int *b, int size)
 {
     int* dev_a = nullptr;
@@ -31,7 +28,6 @@ void addWithCuda(int *c, int *a, int *b, int size)
 
     cudaMemcpy(c, dev_c, size * sizeof(int), cudaMemcpyDeviceToHost);
 
-    // clean up
     cudaFree(dev_c);
     cudaFree(dev_a);
     cudaFree(dev_b);
